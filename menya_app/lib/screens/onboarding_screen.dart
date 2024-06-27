@@ -34,7 +34,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           ),
           // Positioned the 'skip' button at the top right
           Positioned(
-            top: 40,
+            top: 60,
             right: 20,
             child: _currentPage != 3
                 ? ElevatedButton(
@@ -46,18 +46,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey, // Grey background
+                backgroundColor: Colors.grey[400], // Grey background
               ),
               child: Text(
                 'SKIP',
-                style: TextStyle(color: Colors.white), // White text color
+                style: TextStyle(color: Colors.white), // white text color
               ),
             )
                 : Container(),
           ),
           // Positioned the progress indicator just above the 'continue' button
           Positioned(
-            bottom: 120, // Increased space
+            bottom: 140, // Increased space
             left: 0,
             right: 0,
             child: Row(
@@ -101,7 +101,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                   child: Text(
                     'CONTINUE',
-                    style: TextStyle(color: Colors.white), // White text color
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),// White text color
                   ),
                 ),
               ),
