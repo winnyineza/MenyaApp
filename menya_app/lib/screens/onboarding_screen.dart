@@ -32,11 +32,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               OnboardingPage4(),
             ],
           ),
+          // Positioned the 'skip' button at the top right
           Positioned(
             top: 40,
             right: 20,
             child: _currentPage != 3
-                ? TextButton(
+                ? ElevatedButton(
               onPressed: () {
                 _pageController.animateToPage(
                   3,
@@ -44,15 +45,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   curve: Curves.easeInOut,
                 );
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.grey, // Grey background
+              ),
               child: Text(
                 'SKIP',
-                style: TextStyle(color: Color(0xFF0056D2)),
+                style: TextStyle(color: Colors.white), // White text color
               ),
             )
                 : Container(),
           ),
+          // Positioned the progress indicator just above the 'continue' button
           Positioned(
-            bottom: 50,
+            bottom: 120, // Increased space
             left: 0,
             right: 0,
             child: Row(
@@ -71,30 +76,55 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
           ),
+          // Positioned the 'continue' button at the bottom center with padding
           Positioned(
-            bottom: 20,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  if (_currentPage < 3) {
-                    _pageController.animateToPage(
-                      _currentPage + 1,
-                      duration: Duration(milliseconds: 400),
-                      curve: Curves.easeInOut,
-                    );
-                  } else {
-                    // Handle end of onboarding
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF0056D2),
+            bottom: 40, // Positioning the button at the bottom
+            left: 20,
+            right: 20,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 16.0), // Padding between the progress dots and button
+              child: Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_currentPage < 3) {
+                      _pageController.animateToPage(
+                        _currentPage + 1,
+                        duration: Duration(milliseconds: 400),
+                        curve: Curves.easeInOut,
+                      );
+                    } else {
+                      // Handle end of onboarding
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF0056D2), // Blue background
+                  ),
+                  child: Text(
+                    'CONTINUE',
+                    style: TextStyle(color: Colors.white), // White text color
+                  ),
                 ),
-                child: Text('CONTINUE'),
               ),
             ),
           ),
+          // Positioned the back icon at the top left
+          if (_currentPage > 0)
+            Positioned(
+              top: 40,
+              left: 20,
+              child: IconButton(
+                icon: Icon(Icons.arrow_back, color: Color(0xFF0056D2)),
+                onPressed: () {
+                  if (_currentPage > 0) {
+                    _pageController.animateToPage(
+                      _currentPage - 1,
+                      duration: Duration(milliseconds: 400),
+                      curve: Curves.easeInOut,
+                    );
+                  }
+                },
+              ),
+            ),
         ],
       ),
     );
