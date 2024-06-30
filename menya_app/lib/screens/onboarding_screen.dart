@@ -3,6 +3,7 @@ import 'onboarding_page1.dart';
 import 'onboarding_page2.dart';
 import 'onboarding_page3.dart';
 import 'onboarding_page4.dart';
+import 'sign_in_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   @override
