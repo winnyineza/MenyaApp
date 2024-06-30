@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'courses.dart';
 
 class SignUpScreen extends StatelessWidget {
   @override
@@ -71,6 +72,10 @@ class SignUpScreen extends StatelessWidget {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
+                  Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Courses()),
+                      );
                   // Handle sign up logic
                 },
                 style: ElevatedButton.styleFrom(

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'sign_up_screen.dart';
 import 'forgot_password_screen.dart';
-import 'onboarding_page4.dart';
+import 'onboarding_screen.dart';
+import 'courses.dart';
 
 class SignInScreen extends StatelessWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -16,9 +17,9 @@ class SignInScreen extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.pop(
+            Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => OnboardingPage4()));// Handle back button press
+                MaterialPageRoute(builder: (context) => OnboardingScreen()));// Handle back button press
           },
         ),
       ),
@@ -76,6 +77,10 @@ class SignInScreen extends StatelessWidget {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
+                  Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Courses()),
+                      );
                   // Handle sign in logic
                 },
                 style: ElevatedButton.styleFrom(
