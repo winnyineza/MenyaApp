@@ -94,7 +94,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         curve: Curves.easeInOut,
                       );
                     } else {
-                      // Handle end of onboarding
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SignInScreen()));// Handle end of onboarding
                     }
                   },
                   style: ElevatedButton.styleFrom(
