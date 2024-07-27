@@ -4,6 +4,7 @@ import 'course_detail1.dart';
 import 'course_detail2.dart';
 import 'course_detail3.dart';
 import 'course_detail4.dart';
+import 'sign_up_screen.dart';
 
 class Courses extends StatelessWidget {
   @override
