@@ -66,6 +66,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'createdAt': Timestamp.now(),
       });
 
+      // Update the display name
+      await userCredential.user!.updateProfile(displayName: name);
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => Courses()),
@@ -112,6 +115,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'uid': userCredential.user!.uid,
         'createdAt': Timestamp.now(),
       });
+
+      // Update the display name
+      await userCredential.user!.updateProfile(displayName: googleUser.displayName);
 
       Navigator.pushReplacement(
         context,

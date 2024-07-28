@@ -5,10 +5,15 @@ import 'course_detail2.dart';
 import 'course_detail3.dart';
 import 'course_detail4.dart';
 import 'sign_up_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Courses extends StatelessWidget {
+  final User? user = FirebaseAuth.instance.currentUser;
+
   @override
   Widget build(BuildContext context) {
+    String displayName = user?.displayName ?? 'User'; // Default to 'User' if displayName is null
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -34,7 +39,7 @@ class Courses extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Hello,\nUsername 👋',
+              'Hello,\n${displayName} 👋',
               style: TextStyle(
                 fontSize: 40,
                 fontWeight: FontWeight.bold,

@@ -92,8 +92,9 @@ class _SignInScreenState extends State<SignInScreen> {
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => OnboardingScreen()));
+              context,
+              MaterialPageRoute(builder: (context) => OnboardingScreen()),
+            );
           },
         ),
       ),
@@ -151,7 +152,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             MaterialPageRoute(builder: (context) => ForgotPasswordScreen()),
                           );
                         },
-                        child: Text('Forget Password?'),
+                        child: Text('Forgot Password?'),
                       ),
                     ),
                     SizedBox(height: 20),
@@ -225,4 +226,3 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 }
-
