@@ -1,6 +1,7 @@
 # Videos of the Application
 
 - [Front end Implementation](https://youtu.be/AxqAQxWVTDI)
+- [Authentication, App/Business Logic, and Backend](https://www.youtube.com/watch?v=XHxlWsmilSc)
 
 
 
