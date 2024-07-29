@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
-import 'course_list.dart';
-import 'course_detail1.dart';
-import 'course_detail2.dart';
-import 'course_detail3.dart';
-import 'course_detail4.dart';
-import 'sign_up_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'course_list.dart';
+import 'course_detail.dart';
 
-class Courses extends StatelessWidget {
+class Courses extends StatefulWidget {
+  @override
+  _CoursesState createState() => _CoursesState();
+}
+
+class _CoursesState extends State<Courses> {
   final User? user = FirebaseAuth.instance.currentUser;
+  final databaseReference = FirebaseDatabase.instance.ref();
+  List<Map<String, dynamic>> featuredCourses = [
+    {'id': 1, 'title': 'Basic Syntax'},
+    {'id': 2, 'title': 'Variables'},
+    {'id': 3, 'title': 'Data Types'},
+    {'id': 4, 'title': 'Conditions'},
+  ];
 
   @override
   Widget build(BuildContext context) {
-    String displayName = user?.displayName ?? 'User'; // Default to 'User' if displayName is null
+    String displayName = user?.displayName ?? 'User';
 
     return Scaffold(
       appBar: AppBar(
@@ -33,31 +42,160 @@ class Courses extends StatelessWidget {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Hello,\n${displayName} 👋',
+                        style: TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF0056D2),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      _buildIntroductionToPython(context),
+                      SizedBox(height: 30),
+                      _buildFeaturedCoursesHeader(context),
+                      SizedBox(height: 30),
+                      _buildFeaturedCoursesGrid(context),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIntroductionToPython(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CourseList()),
+        );
+      },
+      child: Container(
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.red[600],
+          borderRadius: BorderRadius.circular(30),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 50,
+              offset: Offset(0, 25),
+            ),
+          ],
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Hello,\n${displayName} 👋',
+              'Introduction to \nPython',
               style: TextStyle(
-                fontSize: 40,
+                fontSize: 30,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF0056D2),
+                color: Colors.white,
               ),
             ),
-            SizedBox(height: 20),
-            GestureDetector(
+            SizedBox(height: 50),
+            Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Progress',
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  Text(
+                    '1/11',
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFeaturedCoursesHeader(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          'Featured Course Details',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.grey,
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CourseList()),
+            );
+          },
+          child: Text(
+            'See All',
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.blue,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFeaturedCoursesGrid(BuildContext context) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return GridView.count(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          crossAxisCount: constraints.maxWidth > 600 ? 4 : 2,
+          childAspectRatio: 1.0,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
+          children: featuredCourses.map((course) {
+            return GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CourseList()),
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          CourseDetail(lessonId: course['id'])),
                 );
               },
               child: Container(
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.red[600],
+                  color: Color(0xFF0056D2),
                   borderRadius: BorderRadius.circular(30),
                   boxShadow: [
                     BoxShadow(
@@ -67,219 +205,22 @@ class Courses extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Introduction to \nPython',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                child: Center(
+                  child: Text(
+                    course['title'],
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
-                    SizedBox(height: 50),
-                    Container(
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Progress',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                          Text(
-                            '1/11',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 30),
-            // New Section
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Featured Course Details',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey,
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CourseList()),
-                    );
-                  },
-                  child: Text(
-                    'See All',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.blue,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 30),
-            Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => CourseDetail1()),
-                      );
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(35),
-                      decoration: BoxDecoration(
-                        color: Color(0xFF0056D2),
-                        borderRadius: BorderRadius.circular(30),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black26,
-                            blurRadius: 50,
-                            offset: Offset(0, 25),
-                          ),
-                        ],
-                      ),
-                      child: Text(
-                        'Basic Syntax',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => CourseDetail2()),
-                      );
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(49),
-                      decoration: BoxDecoration(
-                        color: Color(0xFF0056D2),
-                        borderRadius: BorderRadius.circular(30),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black26,
-                            blurRadius: 50,
-                            offset: Offset(0, 25),
-                          ),
-                        ],
-                      ),
-                      child: Text(
-                        'Variables',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => CourseDetail3()),
-                      );
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(35),
-                      decoration: BoxDecoration(
-                        color: Color(0xFF0056D2),
-                        borderRadius: BorderRadius.circular(30),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black26,
-                            blurRadius: 50,
-                            offset: Offset(0, 25),
-                          ),
-                        ],
-                      ),
-                      child: Text(
-                        'Data\nTypes',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => CourseDetail4()),
-                      );
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(49),
-                      decoration: BoxDecoration(
-                        color: Color(0xFF0056D2),
-                        borderRadius: BorderRadius.circular(30),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black26,
-                            blurRadius: 50,
-                            offset: Offset(0, 25),
-                          ),
-                        ],
-                      ),
-                      child: Text(
-                        'Conditions',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+            );
+          }).toList(),
+        );
+      },
     );
   }
 }

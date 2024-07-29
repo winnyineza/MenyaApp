@@ -46,6 +46,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '631538243044',
     projectId: 'menyaapp-1fb1e',
     authDomain: 'menyaapp-1fb1e.firebaseapp.com',
+    databaseURL: 'https://menyaapp-1fb1e-default-rtdb.firebaseio.com',
     storageBucket: 'menyaapp-1fb1e.appspot.com',
   );
 
@@ -54,6 +55,7 @@ class DefaultFirebaseOptions {
     appId: '1:631538243044:android:f3285ae965b96c7b25a3f1',
     messagingSenderId: '631538243044',
     projectId: 'menyaapp-1fb1e',
+    databaseURL: 'https://menyaapp-1fb1e-default-rtdb.firebaseio.com',
     storageBucket: 'menyaapp-1fb1e.appspot.com',
   );
 
@@ -62,7 +64,9 @@ class DefaultFirebaseOptions {
     appId: '1:631538243044:ios:f6087f32cc0ae18a25a3f1',
     messagingSenderId: '631538243044',
     projectId: 'menyaapp-1fb1e',
+    databaseURL: 'https://menyaapp-1fb1e-default-rtdb.firebaseio.com',
     storageBucket: 'menyaapp-1fb1e.appspot.com',
+    iosClientId: '631538243044-j3g57kbgamshb13rl45unkh4bad98lel.apps.googleusercontent.com',
     iosBundleId: 'com.example.menyaApp',
   );
 
@@ -71,7 +75,9 @@ class DefaultFirebaseOptions {
     appId: '1:631538243044:ios:f6087f32cc0ae18a25a3f1',
     messagingSenderId: '631538243044',
     projectId: 'menyaapp-1fb1e',
+    databaseURL: 'https://menyaapp-1fb1e-default-rtdb.firebaseio.com',
     storageBucket: 'menyaapp-1fb1e.appspot.com',
+    iosClientId: '631538243044-j3g57kbgamshb13rl45unkh4bad98lel.apps.googleusercontent.com',
     iosBundleId: 'com.example.menyaApp',
   );
 
@@ -81,6 +87,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '631538243044',
     projectId: 'menyaapp-1fb1e',
     authDomain: 'menyaapp-1fb1e.firebaseapp.com',
+    databaseURL: 'https://menyaapp-1fb1e-default-rtdb.firebaseio.com',
     storageBucket: 'menyaapp-1fb1e.appspot.com',
   );
+
 }

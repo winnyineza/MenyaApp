@@ -1,44 +1,23 @@
 import 'package:flutter/material.dart';
-import 'course_detail1.dart';
-import 'course_detail2.dart';
-import 'course_detail3.dart';
-import 'course_detail4.dart';
-import 'course_detail5.dart';
-import 'course_detail6.dart';
-import 'course_detail7.dart';
-import 'course_detail8.dart';
-import 'course_detail9.dart';
-import 'course_detail10.dart';
-import 'course_detail11.dart';
+import 'course_detail.dart';
 
 class CourseList extends StatelessWidget {
-  final List<String> lessonTitles = [
-    '1: Basic Syntax',
-    '2: Variables',
-    '3: Data Types',
-    '4: Conditionals',
-    '5: TypeCasting',
-    '6: Exceptions',
-    '7: Functions',
-    '8: Lists',
-    '9: Tuples',
-    '10: Sets',
-    '11: Dictionaries'
+  final List<Map<String, dynamic>> lessonTitles = [
+    {'id': 1, 'title': 'Basic Syntax'},
+    {'id': 2, 'title': 'Variables'},
+    {'id': 3, 'title': 'Data Types'},
+    {'id': 4, 'title': 'Conditionals'},
+    {'id': 5, 'title': 'TypeCasting'},
+    {'id': 6, 'title': 'Exceptions'},
+    {'id': 7, 'title': 'Functions'},
+    {'id': 8, 'title': 'Lists'},
+    {'id': 9, 'title': 'Tuples'},
+    {'id': 10, 'title': 'Sets'},
+    {'id': 11, 'title': 'Dictionaries'}
   ];
 
-  final List<Widget> detailPages = [
-    CourseDetail1(),
-    CourseDetail2(),
-    CourseDetail3(),
-    CourseDetail4(),
-    CourseDetail5(),
-    CourseDetail6(),
-    CourseDetail7(),
-    CourseDetail8(),
-    CourseDetail9(),
-    CourseDetail10(),
-    CourseDetail11(),
-  ];
+  final String courseTitle = 'Introduction \nto Python';
+  final String courseDescription = '11 lessons - 8hrs 35min';
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +29,6 @@ class CourseList extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -68,12 +46,14 @@ class CourseList extends StatelessWidget {
                   child: Icon(Icons.book, color: Colors.white),
                 ),
                 SizedBox(width: 10),
-                Text(
-                  'Introduction \nto Python',
-                  style: TextStyle(
-                    color: Color(0xFF0056D2),
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
+                Expanded(
+                  child: Text(
+                    courseTitle,
+                    style: TextStyle(
+                      color: Color(0xFF0056D2),
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],
@@ -81,13 +61,17 @@ class CourseList extends StatelessWidget {
             SizedBox(height: 20),
             Text(
               'Course Details',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
+              style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
             ),
             SizedBox(height: 10),
             Text(
-              '11 lessons - 8hrs 35min',
+              courseDescription,
               style: TextStyle(color: Colors.grey[600]),
             ),
+            SizedBox(height: 20),
             Expanded(
               child: ListView.builder(
                 itemCount: lessonTitles.length,
@@ -96,7 +80,10 @@ class CourseList extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => detailPages[index]),
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              CourseDetail(lessonId: lessonTitles[index]['id']),
+                        ),
                       );
                     },
                     child: Container(
@@ -110,7 +97,7 @@ class CourseList extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            lessonTitles[index],
+                            '${lessonTitles[index]['id']}: ${lessonTitles[index]['title']}',
                             style: TextStyle(color: Colors.white, fontSize: 18),
                           ),
                           Container(
@@ -119,7 +106,8 @@ class CourseList extends StatelessWidget {
                               color: Colors.white,
                             ),
                             padding: EdgeInsets.all(5.0),
-                            child: Icon(Icons.play_arrow, color: Colors.grey[900]),
+                            child:
+                                Icon(Icons.play_arrow, color: Colors.grey[900]),
                           ),
                         ],
                       ),

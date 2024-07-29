@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "631538243044",
+    "firebase_url": "https://menyaapp-1fb1e-default-rtdb.firebaseio.com",
     "project_id": "menyaapp-1fb1e",
     "storage_bucket": "menyaapp-1fb1e.appspot.com"
   },
@@ -12,7 +13,12 @@
           "package_name": "com.example.menya_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "631538243044-kgbdtjk5smrovqc421kkmg8l1q2a19g1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyA4-7gr7C9fLYFoH0zPpLlepc_wgArQ19I"
@@ -20,7 +26,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "631538243044-kgbdtjk5smrovqc421kkmg8l1q2a19g1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "631538243044-j3g57kbgamshb13rl45unkh4bad98lel.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.menyaApp"
+              }
+            }
+          ]
         }
       }
     }
