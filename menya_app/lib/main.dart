@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import 'screens/splash_screen.dart';
 import 'firebase_options.dart';
+import 'provider/course_provider.dart';
 
 void main() async {
+  // Ensure Flutter is initialized
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Firebase
   await Firebase.initializeApp(
-  options: DefaultFirebaseOptions.currentPlatform,
+    options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // Run the app
   runApp(
-       MyApp()
+    // Wrap the app with ChangeNotifierProvider to provide CourseProvider
+    ChangeNotifierProvider(
+      create: (context) => CourseProvider(),
+      child: MyApp(),
+    ),
   );
 }
 
@@ -46,4 +57,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

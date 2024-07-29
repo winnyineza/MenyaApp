@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:flutter_highlight/themes/github.dart';
+import '/provider/course_provider.dart';
 
 class CourseDetail extends StatefulWidget {
   final int lessonId;
@@ -14,43 +15,6 @@ class CourseDetail extends StatefulWidget {
 
 class _CourseDetailState extends State<CourseDetail> {
   bool _showMore = false;
-  final databaseReference = FirebaseDatabase.instance.ref();
-  Map<String, dynamic> lessonData = {};
-  bool isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    fetchLessonData();
-  }
-
-  void fetchLessonData() {
-    databaseReference
-        .child('courses/introduction_to_python/lessons/${widget.lessonId}')
-        .get()
-        .then((DataSnapshot snapshot) {
-      if (snapshot.value != null) {
-        setState(() {
-          lessonData = Map<String, dynamic>.from(snapshot.value as Map);
-          lessonData['content'] =
-              (lessonData['content'] as String?)?.replaceAll('\\n', '\n') ??
-                  'No content available.';
-          lessonData['additional_content'] =
-              (lessonData['additional_content'] as String?)
-                  ?.replaceAll('\\n', '\n');
-          lessonData['code_snippet'] = (lessonData['code_snippet'] as String?)
-                  ?.replaceAll('\\n', '\n') ??
-              '# No code snippet available';
-          isLoading = false;
-        });
-      }
-    }).catchError((error) {
-      print("Error fetching lesson data: $error");
-      setState(() {
-        isLoading = false;
-      });
-    });
-  }
 
   void _toggleShowMore() {
     setState(() {
@@ -60,6 +24,9 @@ class _CourseDetailState extends State<CourseDetail> {
 
   @override
   Widget build(BuildContext context) {
+    final courseProvider = Provider.of<CourseProvider>(context);
+    final lessonData = courseProvider.getLessonById(widget.lessonId);
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -76,7 +43,7 @@ class _CourseDetailState extends State<CourseDetail> {
               fontWeight: FontWeight.bold),
         ),
       ),
-      body: isLoading
+      body: lessonData == null
           ? Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               padding: const EdgeInsets.all(16.0),
@@ -84,7 +51,7 @@ class _CourseDetailState extends State<CourseDetail> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    lessonData['title'] ?? 'Untitled Lesson',
+                    lessonData.title,
                     style: TextStyle(
                         fontSize: 38,
                         fontWeight: FontWeight.bold,
@@ -94,25 +61,25 @@ class _CourseDetailState extends State<CourseDetail> {
                   RichText(
                     text: TextSpan(
                       style: TextStyle(fontSize: 24, color: Colors.grey[850]),
-                      children: (lessonData['content'] as String)
+                      children: lessonData.content
                           .split('\n')
                           .map(
                               (paragraph) => TextSpan(text: paragraph + '\n\n'))
                           .toList(),
                     ),
                   ),
-                  if (_showMore && lessonData['additional_content'] != null)
+                  if (_showMore && lessonData.additionalContent != null)
                     RichText(
                       text: TextSpan(
                         style: TextStyle(fontSize: 24, color: Colors.grey[850]),
-                        children: (lessonData['additional_content'] as String)
+                        children: lessonData.additionalContent!
                             .split('\n')
                             .map((paragraph) =>
                                 TextSpan(text: paragraph + '\n\n'))
                             .toList(),
                       ),
                     ),
-                  if (lessonData['additional_content'] != null)
+                  if (lessonData.additionalContent != null)
                     TextButton(
                       onPressed: _toggleShowMore,
                       child: Text(
@@ -133,8 +100,7 @@ class _CourseDetailState extends State<CourseDetail> {
                     padding: EdgeInsets.all(16),
                     color: Colors.grey[200],
                     child: HighlightView(
-                      lessonData['code_snippet'] ??
-                          '# No code snippet available',
+                      lessonData.codeSnippet ?? '# No code snippet available',
                       language: 'python',
                       theme: githubTheme,
                       textStyle:

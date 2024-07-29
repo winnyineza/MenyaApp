@@ -1,26 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'course_detail.dart';
+import '/provider/course_provider.dart';
 
 class CourseList extends StatelessWidget {
-  final List<Map<String, dynamic>> lessonTitles = [
-    {'id': 1, 'title': 'Basic Syntax'},
-    {'id': 2, 'title': 'Variables'},
-    {'id': 3, 'title': 'Data Types'},
-    {'id': 4, 'title': 'Conditionals'},
-    {'id': 5, 'title': 'TypeCasting'},
-    {'id': 6, 'title': 'Exceptions'},
-    {'id': 7, 'title': 'Functions'},
-    {'id': 8, 'title': 'Lists'},
-    {'id': 9, 'title': 'Tuples'},
-    {'id': 10, 'title': 'Sets'},
-    {'id': 11, 'title': 'Dictionaries'}
-  ];
-
   final String courseTitle = 'Introduction \nto Python';
   final String courseDescription = '11 lessons - 8hrs 35min';
 
   @override
   Widget build(BuildContext context) {
+    final courseProvider = Provider.of<CourseProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -74,15 +64,16 @@ class CourseList extends StatelessWidget {
             SizedBox(height: 20),
             Expanded(
               child: ListView.builder(
-                itemCount: lessonTitles.length,
+                itemCount: courseProvider.lessonTitles.length,
                 itemBuilder: (context, index) {
+                  final lesson = courseProvider.lessonTitles[index];
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              CourseDetail(lessonId: lessonTitles[index]['id']),
+                              CourseDetail(lessonId: lesson.id),
                         ),
                       );
                     },
@@ -97,7 +88,7 @@ class CourseList extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '${lessonTitles[index]['id']}: ${lessonTitles[index]['title']}',
+                            '${lesson.id}: ${lesson.title}',
                             style: TextStyle(color: Colors.white, fontSize: 18),
                           ),
                           Container(

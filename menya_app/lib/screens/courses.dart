@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
+import 'package:provider/provider.dart';
 import 'course_list.dart';
 import 'course_detail.dart';
+import '/provider/course_provider.dart';
 
 class Courses extends StatefulWidget {
   @override
@@ -11,17 +12,11 @@ class Courses extends StatefulWidget {
 
 class _CoursesState extends State<Courses> {
   final User? user = FirebaseAuth.instance.currentUser;
-  final databaseReference = FirebaseDatabase.instance.ref();
-  List<Map<String, dynamic>> featuredCourses = [
-    {'id': 1, 'title': 'Basic Syntax'},
-    {'id': 2, 'title': 'Variables'},
-    {'id': 3, 'title': 'Data Types'},
-    {'id': 4, 'title': 'Conditions'},
-  ];
 
   @override
   Widget build(BuildContext context) {
     String displayName = user?.displayName ?? 'User';
+    final courseProvider = Provider.of<CourseProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -66,7 +61,7 @@ class _CoursesState extends State<Courses> {
                       SizedBox(height: 30),
                       _buildFeaturedCoursesHeader(context),
                       SizedBox(height: 30),
-                      _buildFeaturedCoursesGrid(context),
+                      _buildFeaturedCoursesGrid(context, courseProvider),
                     ],
                   ),
                 ),
@@ -172,7 +167,8 @@ class _CoursesState extends State<Courses> {
     );
   }
 
-  Widget _buildFeaturedCoursesGrid(BuildContext context) {
+  Widget _buildFeaturedCoursesGrid(
+      BuildContext context, CourseProvider courseProvider) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         return GridView.count(
@@ -182,14 +178,13 @@ class _CoursesState extends State<Courses> {
           childAspectRatio: 1.0,
           mainAxisSpacing: 10,
           crossAxisSpacing: 10,
-          children: featuredCourses.map((course) {
+          children: courseProvider.featuredCourses.map((course) {
             return GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          CourseDetail(lessonId: course['id'])),
+                      builder: (context) => CourseDetail(lessonId: course.id)),
                 );
               },
               child: Container(
@@ -207,7 +202,7 @@ class _CoursesState extends State<Courses> {
                 ),
                 child: Center(
                   child: Text(
-                    course['title'],
+                    course.title,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
