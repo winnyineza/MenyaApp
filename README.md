@@ -19,8 +19,10 @@ MenyaApp is a mobile application built using Flutter that aims to provide compre
 
 ## Screenshots
 
-_Insert screenshots of your app here._
-
+![Screenshot 1](images/Screenshot1.png)
+![Screenshot 2](images/Screenshot2.png)
+![Screenshot 3](images/Screenshot3.png)
+![Screenshot 3](images/Screenshot4.png)
 ## Installation
 
 To run this application on your local machine, follow these steps:
