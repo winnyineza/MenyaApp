@@ -2,6 +2,12 @@
 
 - [Front end Implementation](https://youtu.be/AxqAQxWVTDI)
 - [Authentication, App/Business Logic, and Backend](https://www.youtube.com/watch?v=XHxlWsmilSc)
+- [Testing, Creating APK File, and Business Model](https://www.youtube.com/watch?v=afMuc7lFjAc)
+
+# Download the APK
+
+- [Menya App APK](https://drive.google.com/drive/folders/13GVaZRTmJpUqAa8tQrv5uUImtSjc5DjK)
+
 
 
 
